@@ -1,18 +1,30 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Projects from '@/components/Projects.vue';
+import Categories from '@/components/Categories.vue';
+import Todos from '@/components/Todos.vue';
+import Settings from '@/components/Settings.vue';
 
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Projects,
-    },
-  ],
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes: [
+        {
+            path: '/',
+            name: 'categories',
+            component: Categories,
+        },
+        {
+            path: '/todos/category/:id',
+            name: 'todos',
+            component: Todos
+        },
+        {
+            path: '/settings',
+            name: 'settings',
+            component: Settings
+        },
+    ],
 });

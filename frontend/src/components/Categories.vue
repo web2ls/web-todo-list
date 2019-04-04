@@ -1,19 +1,23 @@
 <template>
-    <div class="projects">
+    <div class="categories">
         <div class="nav">
-            <div class="header">select projects</div>
+            <div class="header">select categories</div>
             <div class="settings-link">
-                <unicon name="cog" fill="limegreen"></unicon>
+                <router-link to="/settings">
+                    <unicon name="cog" fill="limegreen" width="30" height="30"></unicon>
+                </router-link>
             </div>
         </div>
 
-        <div class="projects-list">
-            <div class="project-item" v-for="project of data" :key="project.id">{{project.name}}</div>
+        <div class="categories-list">
+            <category v-for="category of data" :key="category.id" :category="category"/>
         </div>
     </div>
 </template>
 
 <script>
+    import Category from '@/components/Category.vue';
+
 const data = [
     {
         id: 1,
@@ -37,16 +41,19 @@ const data = [
     },
 ]
 export default {
+    components: {
+        Category,
+    },
     data() {
         return {
             data: data
         }
-    }
-}
+    },
+};
 </script>
 
 <style scoped lang='scss'>
-    .projects {
+    .categories {
 
         & .nav {
             display: flex;
@@ -65,18 +72,10 @@ export default {
             }
         }
 
-        & .projects-list {
+        & .categories-list {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-
-            & .project-item {
-                flex-basis: 15%;
-                margin: 2%;
-                padding: 3% 5%;
-                background: #fff;
-                box-shadow: -10px 10px 10px 0px lightgrey;
-            }
         }
     }
 </style>
