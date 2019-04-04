@@ -17,7 +17,6 @@ export default {
     props: ['category'],
     methods: {
         selectCategory: function() {
-            console.log('Sected category');
             const catId = this.category.id;
             this.$router.push({name: 'todos', params: {id: catId}});
         }
