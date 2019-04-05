@@ -6,9 +6,13 @@
     </div>
     <div
       class="todo-content"
-      @click.stop="editTodo()"
-      :class="{completed: todo.isComplete}"
-    >{{todo.name}}</div>
+      @click.stop="startEditTodo"
+      :class="{completed: todo.isComplete}">
+      <div v-if="!isEditing">{{todo.name}}</div>
+      <div v-if="isEditing">
+        <textarea v-model="todo.name" v-focus @change="endEditTodo"></textarea>
+      </div>
+      </div>
     <div
       class="todo-complete-zone"
       @click.stop="emitOnCompletedTodo()"
@@ -22,14 +26,32 @@
 <script>
 export default {
   props: ["todo"],
+  directives: {
+    focus: {
+      inserted: function(el) {
+        el.focus();
+      }
+    }
+  },
   data: function() {
     return {
-      isSelected: false
+      isSelected: false,
+      isEditing: false,
     };
   },
   methods: {
-    editTodo: function() {
-      console.log("Edit todo item");
+    startEditTodo: function() {
+      this.isEditing = true;
+    },
+
+    endEditTodo: function(event) {
+      const newTodoValue = event.target.value;
+      console.log(newTodoValue);
+      this.$emit('onEditTodo', {
+        id: this.todo.id,
+        name: newTodoValue
+      });
+      this.isEditing = false;
     },
 
     emitOnCompletedTodo: function() {
@@ -85,6 +107,13 @@ export default {
     &.completed {
       color: gray;
       text-decoration: line-through;
+    }
+
+    & textarea {
+      width: 100%;
+      border: none;
+      outline: 0;
+      resize: none;
     }
   }
 

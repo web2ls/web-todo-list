@@ -13,7 +13,13 @@
                 </router-link>
             </div>
         </div>
-        <todo v-for="todo of todos" :key="todo.id" :todo="todo" @onCompleteTodo="onCompleteTodo" @onSelectTodo="onSelectTodo" />
+        <todo 
+            v-for="todo of todos" 
+            :key="todo.id" 
+            :todo="todo" 
+            @onCompleteTodo="onCompleteTodo" 
+            @onSelectTodo="onSelectTodo"
+            @onEditTodo="onEditTodo" />
 
         <div class="todos-delete-selected-btn" v-if="isSelectedTodosExists" @click="onDeleteTodos">
             <unicon name="trash-alt" fill="#e27d60" width="50" height="50"></unicon>
@@ -84,6 +90,13 @@ export default {
                 const unselectedIndex = this.selectedTodos.findIndex(todo => todo === payload.id);
                 this.selectedTodos.splice(unselectedIndex, 1);
             }
+        },
+
+        onEditTodo(payload) {
+            const updatedTodo = this.todos.find(todo => todo.id === payload.id);
+            const updatedTodoIndex = this.todos.findIndex(todo => todo.id === payload.id);
+            updatedTodo.name = payload.name;
+            this.todos[updatedTodoIndex] = updatedTodo;
         },
 
         onDeleteTodos() {
