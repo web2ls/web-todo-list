@@ -13,6 +13,14 @@
                 </router-link>
             </div>
         </div>
+
+        <div class="todos-new-todo">
+            <textarea 
+                v-model="newTodoValue" 
+                v-focus placeholder="Enter new todo..."
+                @keyup.enter="enterNewTodo" ></textarea>
+        </div>
+
         <todo 
             v-for="todo of todos" 
             :key="todo.id" 
@@ -62,10 +70,19 @@ export default {
         Todo,
     },
 
+    directives: {
+        focus: {
+            inserted: function(el) {
+                el.focus();
+            },
+        },
+    },
+
     data() {
         return {
             todos: data,
-            selectedTodos: []
+            selectedTodos: [],
+            newTodoValue: '',
         }
     },
 
@@ -99,6 +116,18 @@ export default {
             this.todos[updatedTodoIndex] = updatedTodo;
         },
 
+        enterNewTodo(event) {
+            console.log(event.target.value);
+            const newTodo = event.target.value;
+            const obj = {
+                id: Math.floor(Math.random() * 10000),
+                name: newTodo,
+                isComplete: false,
+            };
+            this.todos.push(obj);
+            this.newTodoValue = '';
+        },
+
         onDeleteTodos() {
             const updatedTodos = this.todos.filter(todo => {
                 if (this.selectedTodos.includes(todo.id))
@@ -123,6 +152,20 @@ export default {
             flex-wrap: nowrap;
             justify-content: space-between;
             margin: 3% 0;
+        }
+
+        & .todos-new-todo {
+
+            & textarea {
+                width: 60%;
+                border: none;
+                outline: 0;
+                resize: none;
+                padding: 1%;
+                border: 1px solid limegreen;
+                border-radius: 5px;
+                  box-shadow: -10px 10px 0 0 lightgrey;
+            }
         }
 
         & .todos-delete-selected-btn {

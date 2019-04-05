@@ -46,7 +46,6 @@ export default {
 
     endEditTodo: function(event) {
       const newTodoValue = event.target.value;
-      console.log(newTodoValue);
       this.$emit('onEditTodo', {
         id: this.todo.id,
         name: newTodoValue
