@@ -1,25 +1,32 @@
-import { Controller, Get, Post, Put, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus } from '@nestjs/common';
+import { TodosService } from './todos.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 
 @Controller('todos')
 export class TodosController {
-	@Get()
-	getAll(): string {
-		return 'test';
+	constructor(private readonly todosService: TodosService) {}
+
+	@Get('/:categoryId')
+	async getByCategory(@Param('categoryId') categoryId, @Res() res) {
+		const todos = await this.todosService.findTodosByCategory(categoryId);
+		return res.status(HttpStatus.OK).json(todos);
 	}
 
-	@Post()
-	createNew(@Body() createTodoDto: CreateTodoDto): string {
-		return 'new todo';
+	@Post('/create')
+	async createNew(@Body() createTodoDto: CreateTodoDto, @Res() res) {
+		const createdTodo = await this.todosService.createTodo(createTodoDto);
+		return res.status(HttpStatus.OK).json(createdTodo);
 	}
 
-	@Put(':id')
-	update() {
-
+	@Put('/update/:id')
+	async update(@Body() updateTodoDto, @Param('id') id, @Res() res) {
+		const updatedTodo = await this.todosService.updateTodo(id, updateTodoDto);
+		return res.status(HttpStatus.OK).json(updatedTodo);
 	}
 
-	@Delete(':id')
-	delete() {
-
+	@Delete('/delete/:id')
+	async delete(@Param('id') id, @Res() res) {
+		const deletedTodo = await this.todosService.deleteTodo(id);
+		res.status(HttpStatus.OK).json(deletedTodo);
 	}
 }
