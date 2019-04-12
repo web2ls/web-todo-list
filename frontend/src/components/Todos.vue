@@ -14,6 +14,13 @@
             </div>
         </div>
 
+        <div class="errors">
+            <div v-if="errorGetData" class="alert-message">Error on getting data from the server</div>
+            <div v-if="errorCreateTodo" class="alert-message">Error on creating new Todo</div>
+            <div v-if="errorUpdateTodo" class="alert-message">Error on updating Todo</div>
+            <div v-if="errorDeleteTodo" class="alert-message">Error on deleting Todo</div>
+        </div>
+
         <div class="todos-new-todo">
             <textarea 
                 v-model="newTodoValue" 
@@ -36,35 +43,9 @@
 </template>
 
 <script>
-    import Todo from '@/components/Todo.vue';
+import Todo from '@/components/Todo.vue';
+import { ApiService } from '../services/api';
 
-const data = [
-    {
-        id: 1,
-        name: 'Test',
-        isComplete: true,
-    },
-    {
-        id: 2,
-        name: 'Test2',
-        isComplete: false,
-    },
-    {
-        id: 3,
-        name: 'Test3',
-        isComplete: false,
-    },
-    {
-        id: 4,
-        name: 'Test565',
-        isComplete: false,
-    },
-    {
-        id: 454,
-        name: 'Test45454',
-        isComplete: false,
-    },
-]
 export default {
     components: {
         Todo,
@@ -80,9 +61,14 @@ export default {
 
     data() {
         return {
-            todos: data,
+            categoryId: '',
+            todos: [],
             selectedTodos: [],
             newTodoValue: '',
+            errorGetData: false,
+            errorCreateTodo: false,
+            errorUpdateTodo: false,
+            errorDeleteTodo: false
         }
     },
 
@@ -92,52 +78,104 @@ export default {
         }
     },
 
+    created() {
+        console.log(this.$route.params);
+        const categoryId = this.$route.params.id;
+        this.categoryId = categoryId;
+        ApiService.getTodosByCategory(categoryId)
+        .then(res => {
+            this.todos = res.data;
+        })
+        .catch(error => {
+            console.error(error);
+            this.errorGetData = true;
+        })
+    },
+
     methods: {
         onCompleteTodo(payload) {
-            const updatedTodo = this.todos.find(todo => todo.id === payload.id);
-            const updatedTodoIndex = this.todos.findIndex(todo => todo.id === payload.id);
+            const updatedTodo = this.todos.find(todo => todo._id === payload._id);
+            const updatedTodoIndex = this.todos.findIndex(todo => todo._id === payload._id);
             updatedTodo.isComplete = payload.isComplete;
-            this.todos[updatedTodoIndex] = updatedTodo;
+            ApiService.updateTodo(updatedTodo)
+            .then(res => {
+                this.todos[updatedTodoIndex] = res.data;
+            })
+            .catch(error => {
+                console.error(error);
+                this.errorUpdateTodo = true;
+            })
         },
 
         onSelectTodo(payload) {
             if (payload.isSelected)
-                this.selectedTodos.push(payload.id);
+                this.selectedTodos.push(payload._id);
             else {
-                const unselectedIndex = this.selectedTodos.findIndex(todo => todo === payload.id);
+                const unselectedIndex = this.selectedTodos.findIndex(todo => todo === payload._id);
                 this.selectedTodos.splice(unselectedIndex, 1);
             }
         },
 
         onEditTodo(payload) {
-            const updatedTodo = this.todos.find(todo => todo.id === payload.id);
-            const updatedTodoIndex = this.todos.findIndex(todo => todo.id === payload.id);
-            updatedTodo.name = payload.name;
-            this.todos[updatedTodoIndex] = updatedTodo;
+            const updatedTodo = this.todos.find(todo => todo._id === payload._id);
+            const updatedTodoIndex = this.todos.findIndex(todo => todo._id === payload._id);
+            updatedTodo.content = payload.content;
+            ApiService.updateTodo(updatedTodo)
+            .then(res => {
+                this.todos[updatedTodoIndex] = res.data;
+            })
+            .catch(error => {
+                console.error(error);
+                this.errorUpdateTodo = true;
+            })
         },
 
-        enterNewTodo(event) {
-            console.log(event.target.value);
-            const newTodo = event.target.value;
+        enterNewTodo() {
+            this.resetMessages();
             const obj = {
-                id: Math.floor(Math.random() * 10000),
-                name: newTodo,
+                content: this.newTodoValue,
                 isComplete: false,
+                category: this.categoryId
             };
-            this.todos.push(obj);
-            this.newTodoValue = '';
+            ApiService.createTodo(obj)
+            .then(res => {
+                this.todos.push(obj);
+                this.newTodoValue = '';
+            })
+            .catch(error => {
+                console.error(error);
+                this.errorCreateTodo = true;
+            })
         },
 
         onDeleteTodos() {
-            const updatedTodos = this.todos.filter(todo => {
-                if (this.selectedTodos.includes(todo.id))
-                    return false
-                else
-                    return true;
+            const todosForDelete = [];
+            this.selectedTodos.forEach(selectedTodo => {
+                todosForDelete.push(ApiService.deleteTodo(selectedTodo));
             });
-            this.selectedTodos = [];
-            this.todos = updatedTodos;
+            Promise.all(todosForDelete)
+            .then(res => {
+                const actuallyTodos = this.todos.filter(todo => {
+                    if (this.selectedTodos.includes(todo._id))
+                        return false
+                    else
+                        return true;
+                });
+                this.selectedTodos = [];
+                this.todos = actuallyTodos;                
+            })
+            .catch(error => {
+                console.error(error);
+
+            })
         },
+
+        resetMessages() {
+            this.errorGetData = false;
+            this.errorCreateTodo = false;
+            this.errorUpdateTodo = false;
+            this.errorDeleteTodo = false;
+        }
     },
 };
 </script>
@@ -175,6 +213,13 @@ export default {
             transform: translate(-50%, -50%);
             z-index: 10;
             cursor: pointer;
+        }
+
+        & .errors {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: red;
+            font-weight: 400;
         }
     }
 </style>

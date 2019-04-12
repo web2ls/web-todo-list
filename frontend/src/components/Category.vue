@@ -32,7 +32,7 @@ export default {
     },
     methods: {
         selectCategory: function() {
-            const catId = this.category.id;
+            const catId = this.category._id;
             this.$router.push({name: 'todos', params: {id: catId}});
         }
     }

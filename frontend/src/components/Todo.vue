@@ -8,9 +8,9 @@
       class="todo-content"
       @click.stop="startEditTodo"
       :class="{completed: todo.isComplete}">
-      <div v-if="!isEditing">{{todo.name}}</div>
+      <div v-if="!isEditing">{{todo.content}}</div>
       <div v-if="isEditing">
-        <textarea v-model="todo.name" v-focus @change="endEditTodo"></textarea>
+        <textarea v-model="todo.content" v-focus @change="endEditTodo"></textarea>
       </div>
       </div>
     <div
@@ -47,15 +47,15 @@ export default {
     endEditTodo: function(event) {
       const newTodoValue = event.target.value;
       this.$emit('onEditTodo', {
-        id: this.todo.id,
-        name: newTodoValue
+        _id: this.todo._id,
+        content: newTodoValue
       });
       this.isEditing = false;
     },
 
     emitOnCompletedTodo: function() {
       this.$emit("onCompleteTodo", {
-        id: this.todo.id,
+        _id: this.todo._id,
         isComplete: !this.todo.isComplete
       });
     },
@@ -63,7 +63,7 @@ export default {
     emitOnSelectTodo() {
       this.isSelected = !this.isSelected;
       this.$emit("onSelectTodo", {
-        id: this.todo.id,
+        _id: this.todo._id,
         isSelected: this.isSelected
       });
     }
