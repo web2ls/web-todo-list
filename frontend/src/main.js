@@ -3,9 +3,9 @@ import App from './App.vue';
 import router from './router';
 
 import Unicon from 'vue-unicons';
-import { uniCog, uniArrowLeft, uniSquareFull, uniCheckSquare, uniTrashAlt } from 'vue-unicons/src/icons';
+import { uniCog, uniArrowLeft, uniSquareFull, uniCheckSquare, uniTrashAlt, uniFocusAdd, uniFolderPlus, uniPackage } from 'vue-unicons/src/icons';
 
-Unicon.add([uniCog, uniArrowLeft, uniSquareFull, uniCheckSquare, uniTrashAlt]);
+Unicon.add([uniCog, uniArrowLeft, uniSquareFull, uniCheckSquare, uniTrashAlt, uniFocusAdd, uniFolderPlus, uniPackage]);
 Vue.use(Unicon);
 
 Vue.config.productionTip = false;

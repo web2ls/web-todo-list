@@ -6,5 +6,9 @@ export const CategorySchema = new mongoose.Schema({
 		required: true,
 		trim: true,
 		unique: true
+	},
+	icon: {
+		type: String,
+		trim: true
 	}
 })
