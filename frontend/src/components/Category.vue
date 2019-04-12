@@ -1,20 +1,35 @@
 <template>
     <div class="category-item" @click="selectCategory()">
-        <div class="category-icon">
-            <unicon name="cog" fill="limegreen"></unicon>
+        <div class="default-category-icon">
+            <unicon name="folder" fill="limegreen" width="30" height="30"></unicon>
         </div>
         <div class="category-name">
             {{category.name}}
         </div>
         <div class="category-stats">
-            Active Tasks 10
+            <span>active tasks: {{todosAmount}}</span>
         </div>
     </div>
 </template>
 
 <script>
+import { ApiService } from '../services/api';
 export default {
     props: ['category'],
+    data() {
+        return {
+            todosAmount: 0,
+        }
+    },
+    created() {
+        ApiService.getTodosAmountByCategory(this.category._id)
+        .then(res => {
+            this.todosAmount = res.data;
+        })
+        .catch(error => {
+            console.error(error);
+        })
+    },
     methods: {
         selectCategory: function() {
             const catId = this.category.id;
@@ -50,9 +65,7 @@ export default {
 
         & .category-stats {
             margin-bottom: 10px;
+            font-size: 12px;
         }
     }
-</style>
-'>
-
 </style>

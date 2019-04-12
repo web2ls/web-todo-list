@@ -58,7 +58,6 @@ export default {
             const newCategory = this.getNewCategoryObj();
             ApiService.createCategory(newCategory)
             .then(res => {
-                console.log(res);
                 this.successCreateNewCategory = true;
             })
             .catch(error => {

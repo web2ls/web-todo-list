@@ -13,6 +13,11 @@ export class TodosService {
 		return await this.todoModel.find({category: categoryId}).exec();
 	}
 
+	async findTodosAmountByCategory(categoryId: string): Promise<number> {
+		const todos = await this.todoModel.find({category: categoryId}).exec();
+		return todos.length;
+	}
+
 	async createTodo(createTodoDto: CreateTodoDto): Promise<Todo> {
 		const createdTodo = new this.todoModel(createTodoDto);
 		return createdTodo.save();

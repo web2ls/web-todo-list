@@ -12,6 +12,12 @@ export class TodosController {
 		return res.status(HttpStatus.OK).json(todos);
 	}
 
+	@Get('/:categoryId/amount')
+	async getTodosAmountByCategory(@Param('categoryId') categoryId, @Res() res) {
+		const todosAmount = await this.todosService.findTodosAmountByCategory(categoryId);
+		return res.status(HttpStatus.OK).json(todosAmount);		
+	}
+
 	@Post('/create')
 	async createNew(@Body() createTodoDto: CreateTodoDto, @Res() res) {
 		const createdTodo = await this.todosService.createTodo(createTodoDto);

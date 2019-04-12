@@ -3,7 +3,9 @@
         <div class="nav">
             <div class="header">select categories</div>
 
-            <div v-if="errorGetDataMessage" class="alert-message">Error on getting data from server!</div>
+            <div class="errors">
+                <div v-if="errorGetDataMessage" class="alert-message">Error on getting data from the server</div>
+            </div>
 
             <div class="settings-link">
                 <router-link to="/settings">
@@ -13,48 +15,38 @@
         </div>
 
         <div class="categories-list">
-            <category v-for="category of data" :key="category.id" :category="category"/>
+            <category v-for="category of categories" :key="category.id" :category="category"/>
         </div>
     </div>
 </template>
 
 <script>
-    import Category from '@/components/Category.vue';
+import Category from '@/components/Category.vue';
+import { ApiService } from '../services/api';
 
-const data = [
-    {
-        id: 1,
-        name: 'Test'
-    },
-    {
-        id: 2,
-        name: 'Test2'
-    },
-    {
-        id: 3,
-        name: 'Test3'
-    },
-    {
-        id: 4,
-        name: 'Test565'
-    },
-    {
-        id: 454,
-        name: 'Test45454'
-    },
-]
 export default {
     components: {
         Category,
     },
     data() {
         return {
-            data: data,
+            categories: [],
             errorGetDataMessage: false,
         }
     },
+    created() {
+        ApiService.getCategories()
+        .then(res => {
+            console.log(res);
+            this.categories = res.data;
+        })
+        .catch(error => {
+            console.error(error);
+            this.errorGetDataMessage = true;
+        })
+    },
     methods: {
-        resetErrors() {
+        resetMessages() {
             this.errorGetDataMessage = false;
         }
     }
@@ -91,10 +83,12 @@ export default {
             flex-wrap: wrap;
         }
 
-        & .alert-message {
+        & .errors {
             margin: 20px 0;
             color: red;
-            font-size: 20px;
+            letter-spacing: 1px;
+            font-weight: 700;
+            font-size: 16px;
         }
     }
 </style>
