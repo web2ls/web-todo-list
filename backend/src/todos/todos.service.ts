@@ -14,7 +14,7 @@ export class TodosService {
 	}
 
 	async findTodosAmountByCategory(categoryId: string): Promise<number> {
-		const todos = await this.todoModel.find({category: categoryId}).exec();
+		const todos = await this.todoModel.find({category: categoryId, isComplete: false}).exec();
 		return todos.length;
 	}
 

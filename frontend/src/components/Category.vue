@@ -39,7 +39,7 @@ export default {
 }
 </script>
 
-<style scoped lang=''<style lang="scss">
+<style scoped lang="scss">
     .category-item {
         flex-basis: 10%;
         margin: 2%;

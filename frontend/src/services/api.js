@@ -18,6 +18,14 @@ export const ApiService = {
         const url = `${ENV.BACKEND_URL}/categories/create`;
         return axios.post(url, newCategory);
     },
+    updateCategory(category) {
+        const url = `${ENV.BACKEND_URL}/categories/update/${category._id}`;
+        return axios.put(url, category);
+    },
+    deleteCategory(categoryId) {
+        const url = `${ENV.BACKEND_URL}/categories/delete/${categoryId}`;
+        return axios.delete(url);
+    },
     createTodo(todo) {
         const url = `${ENV.BACKEND_URL}/todos/create`;
         return axios.post(url, todo);

@@ -8,20 +8,35 @@
             </div>
         </div>
         <div class="categories">
-            <div class="header">Categories</div>
+            <div class="header">Add Category</div>
             <div class="create-new-category">
                 <input type="text" v-model="newCategoryName" autocomplete="off" placeholder="category name...">
                 <br />
                 <input type="text" v-model="newCategoryIcon" autocomplete="off" placeholder="category icon...">
-                <button class="save-new-category-btn" type="button" @click="createCategory">Create me</button>
+                <button class="save-new-category-btn" type="button" @click="createCategory">Add me</button>
 
                 <div class="success">
                     <div v-if="successCreateNewCategory" class="success-message">Category has been created</div>
+                    <div v-if="successUpdateCategory" class="success-message">Category has been updated</div>
                 </div>
 
                 <div class="errors">
                     <div v-if="errorNewCategoryName" class="alert-message">Wrong new Category name</div>
                     <div v-if="errorCreateNewCategory" class="alert-message">Error on creating new Category</div>
+                    <div v-if="errorUpdateCategory" class="alert-message">Error on updating Category</div>
+                    <div v-if="errorDeleteCategory" class="alert-message">Error on deleting Category</div>
+                    <div v-if="errorGetData" class="alert-message">Error on getting data from the server</div>
+                </div>
+            </div>
+
+            <div class="list">
+                <div class="list-header">Categories list</div>
+                <div class="category-item" v-for="category of categories" :key="category._id">
+                    <input class="name" type="text" v-model="category.name">
+                    <div class="controls">
+                        <unicon class="control-icon" name="edit" width="20" height="20" @click="editCategory(category)"></unicon>
+                        <unicon class="control-icon" name="trash-alt" width="20" height="20" @click="deleteCategory(category._id)"></unicon>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,10 +51,25 @@ export default {
         return {
             newCategoryName: '',
             newCategoryIcon: '',
+            categories: [],
             successCreateNewCategory: false,
+            successUpdateCategory: false,
             errorNewCategoryName: false,
             errorCreateNewCategory: false,
+            errorUpdateCategory: false,
+            errorDeleteCategory: false,
+            errorGetData: false,
         }
+    },
+    created() {
+        ApiService.getCategories()
+        .then(res => {
+            this.categories = res.data;
+        })
+        .catch(error => {
+            console.error(error);
+            this.errorGetData = true;
+        })
     },
     methods: {
         getNewCategoryObj() {
@@ -59,16 +89,47 @@ export default {
             ApiService.createCategory(newCategory)
             .then(res => {
                 this.successCreateNewCategory = true;
+                this.categories.push(res.data);
             })
             .catch(error => {
                 console.error(error);
                 this.errorCreateNewCategory = true;
             });
         },
+        editCategory(category) {
+            this.resetMessages();
+            if (!category.name) {
+                this.errorNewCategoryName = true;
+                return;
+            }
+
+            ApiService.updateCategory(category)
+            .then(res => {
+                this.successUpdateCategory = true;
+            })
+            .catch(error => {
+                console.error(error);
+                this.errorUpdateCategory = true;
+            })
+        },
+        deleteCategory(categoryId) {
+            ApiService.deleteCategory(categoryId)
+            .then(res => {
+                this.categories = this.categories.filter(item => item._id !== categoryId);
+            })
+            .catch(error => {
+                console.error(error);
+                this.errorDeleteCategory = true;
+            })
+        },
         resetMessages() {
             this.errorNewCategoryName = false;
             this.errorCreateNewCategory = false;
+            this.errorUpdateCategory = false;
+            this.errorDeleteCategory = false;
             this.successCreateNewCategory = false;
+            this.successUpdateCategory = false;
+            this.errorGetData = false;
         }
     }
 
@@ -93,6 +154,13 @@ export default {
             letter-spacing: 1px;
             font-weight: 700;
             font-size: 20px;
+        }
+
+        & .list-header {
+            text-align: center;
+            letter-spacing: 1px;
+            font-weight: 700;
+            font-size: 20px; 
         }
 
         & .create-new-category {
@@ -144,6 +212,39 @@ export default {
                 letter-spacing: 1px;
                 font-weight: 700;
                 font-size: 16px;
+            }
+        }
+
+        & .category-item {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            width: 80%;
+            margin: 10px auto;
+            padding: 1%;
+            background: #fff;
+            text-align: left;
+            font-weight: 300;
+            box-shadow: -10px 10px 10px 0px lightgrey;
+
+            & .name {
+                flex-basis: 90%;
+                border: none;
+                outline: 0;
+                background: #fff;
+                border-bottom: 1px solid gray;
+            }
+
+            & .controls {
+                flex-basis: 10%;
+                border-left: 1px solid #000;
+                text-align: center;
+
+                & .control-icon {
+                    margin-left: 5%;
+                    cursor: pointer;
+                }
             }
         }
     }
