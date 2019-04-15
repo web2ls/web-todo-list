@@ -10,10 +10,12 @@
         <div class="categories">
             <div class="header">Add Category</div>
             <div class="create-new-category">
-                <input type="text" v-model="newCategoryName" autocomplete="off" placeholder="category name...">
-                <br />
-                <input type="text" v-model="newCategoryIcon" autocomplete="off" placeholder="category icon...">
-                <button class="save-new-category-btn" type="button" @click="createCategory">Add me</button>
+                <form @submit.prevent="createCategory">
+                    <input type="text" v-model="newCategoryName" autocomplete="off" placeholder="category name...">
+                    <br />
+                    <input type="text" v-model="newCategoryIcon" autocomplete="off" placeholder="category icon...">
+                    <button class="save-new-category-btn" type="submit">Add me</button>
+                </form>
 
                 <div class="success">
                     <div v-if="successCreateNewCategory" class="success-message">Category has been created</div>
@@ -90,6 +92,8 @@ export default {
             .then(res => {
                 this.successCreateNewCategory = true;
                 this.categories.push(res.data);
+                this.newCategoryName = '';
+                this.newCategoryIcon = '';
             })
             .catch(error => {
                 console.error(error);
@@ -113,7 +117,8 @@ export default {
             })
         },
         deleteCategory(categoryId) {
-            ApiService.deleteCategory(categoryId)
+            ApiService.deleteTodosByCategory(categoryId)
+            .then(res => ApiService.deleteCategory(categoryId))
             .then(res => {
                 this.categories = this.categories.filter(item => item._id !== categoryId);
             })

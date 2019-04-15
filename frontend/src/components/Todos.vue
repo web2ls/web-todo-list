@@ -139,7 +139,7 @@ export default {
             };
             ApiService.createTodo(obj)
             .then(res => {
-                this.todos.push(obj);
+                this.todos.push(res.data);
                 this.newTodoValue = '';
             })
             .catch(error => {

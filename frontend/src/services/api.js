@@ -37,5 +37,9 @@ export const ApiService = {
     deleteTodo(todoId) {
         const url = `${ENV.BACKEND_URL}/todos/delete/${todoId}`;
         return axios.delete(url);
+    },
+    deleteTodosByCategory(categoryId) {
+        const url = `${ENV.BACKEND_URL}/todos/delete/bycategory/${categoryId}`;
+        return axios.delete(url);
     }
 }

@@ -35,4 +35,10 @@ export class TodosController {
 		const deletedTodo = await this.todosService.deleteTodo(id);
 		res.status(HttpStatus.OK).json(deletedTodo);
 	}
+
+	@Delete('/delete/bycategory/:id')
+	async deleteByCategory(@Param('id') id, @Res() res) {
+		const deletedTodos = await this.todosService.deleteTodosByCategory(id);
+		res.status(HttpStatus.OK).json(true);
+	}
 }

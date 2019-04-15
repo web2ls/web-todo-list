@@ -31,4 +31,8 @@ export class TodosService {
 		return await this.todoModel.findByIdAndRemove(id);
 
 	}
+
+	async deleteTodosByCategory(id: string): Promise<any> {
+		return await this.todoModel.deleteMany({category: id});
+	}
 }

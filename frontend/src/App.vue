@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <div class="container">
-        <header>to do it now!</header>
+        <header>
+          <router-link to="/">to do it now!</router-link>
+          </header>
         <router-view/>
     </div>
   </div>
@@ -30,6 +32,11 @@ body {
       font-weight: 400;
       letter-spacing: 1px;
       text-transform: uppercase;
+
+      & a {
+        color: #2c3e50;
+        text-decoration: none;
+      }
   }
 }
 
