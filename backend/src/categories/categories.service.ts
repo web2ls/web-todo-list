@@ -18,12 +18,20 @@ export class CategoriesService {
 		return await createdCategory.save();
 	}
 
-	async updateCategory(categoryId: string, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
-		return await this.categoryModel.findByIdAndUpdate(categoryId, updateCategoryDto, { new: true });
+	async updateCategory(categoryId: string, updateCategoryDto: UpdateCategoryDto): Promise<Category | boolean> {
+		try {
+			return await this.categoryModel.findByIdAndUpdate(categoryId, updateCategoryDto, { new: true });	
+		} catch(error) {
+			return false;
+		}
 	}
 
-	async deleteCategory(categoryId: string): Promise<any> {
-		const deletedCategory = await this.categoryModel.findByIdAndRemove(categoryId);
-		return deletedCategory;
+	async deleteCategory(categoryId: string): Promise<any> {		
+		try {
+			const deletedCategory = await this.categoryModel.findByIdAndRemove(categoryId);
+			return deletedCategory;
+		} catch(error) {
+			return false;
+		}
 	}
 }

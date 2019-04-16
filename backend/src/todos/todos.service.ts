@@ -23,16 +23,30 @@ export class TodosService {
 		return createdTodo.save();
 	}
 
-	async updateTodo(id: string, updateTodoDto: UpdateTodoDto): Promise<Todo> {
-		return this.todoModel.findByIdAndUpdate(id, updateTodoDto, {new: true});
+	async updateTodo(id: string, updateTodoDto: UpdateTodoDto): Promise<Todo | boolean> {
+		try {
+			console.log('call service');
+			return this.todoModel.findByIdAndUpdate(id, updateTodoDto, {new: true});
+		} catch(error) {
+			console.log('error in service');
+			return false;
+		}
 	}
 
-	async deleteTodo(id: string): Promise<Todo> {
-		return await this.todoModel.findByIdAndRemove(id);
+	async deleteTodo(id: string): Promise<Todo | boolean> {
+		try {
+			return await this.todoModel.findByIdAndRemove(id);
+		} catch(error) {
+			return false;
+		}
 
 	}
 
 	async deleteTodosByCategory(id: string): Promise<any> {
-		return await this.todoModel.deleteMany({category: id});
+		try {
+			return await this.todoModel.deleteMany({category: id});
+		} catch(error) {
+			return false;
+		}
 	}
 }

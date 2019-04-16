@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, NotFoundException } from '@nestjs/common';
 import { TodosService } from './todos.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 
@@ -27,18 +27,26 @@ export class TodosController {
 	@Put('/update/:id')
 	async update(@Body() updateTodoDto, @Param('id') id, @Res() res) {
 		const updatedTodo = await this.todosService.updateTodo(id, updateTodoDto);
+		console.log(updatedTodo);
+		if (!updatedTodo)
+			throw new NotFoundException('Task not found');
 		return res.status(HttpStatus.OK).json(updatedTodo);
 	}
 
 	@Delete('/delete/:id')
 	async delete(@Param('id') id, @Res() res) {
 		const deletedTodo = await this.todosService.deleteTodo(id);
+		if (!deletedTodo)
+			throw new NotFoundException('Task not found');
 		res.status(HttpStatus.OK).json(deletedTodo);
 	}
 
 	@Delete('/delete/bycategory/:id')
 	async deleteByCategory(@Param('id') id, @Res() res) {
 		const deletedTodos = await this.todosService.deleteTodosByCategory(id);
+		console.log(deletedTodos);
+		if (!deletedTodos)
+			throw new NotFoundException('Category not found');
 		res.status(HttpStatus.OK).json(true);
 	}
 }

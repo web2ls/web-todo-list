@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Req, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Req, Res, HttpStatus, NotFoundException } from '@nestjs/common';
 import * as mongoose from 'mongoose';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -24,12 +24,16 @@ export class CategoriesController {
 	@Put('/update/:categoryId')
 	async updateOne(@Body() updateCategoryDto: UpdateCategoryDto, @Param('categoryId') categoryId, @Res() res) {
 		const updatedCategory = await this.categoryService.updateCategory(categoryId, updateCategoryDto);
+		if (!updatedCategory)
+			throw new NotFoundException('Category not found');
 		return res.status(HttpStatus.OK).json(updatedCategory);
 	}
 
 	@Delete('/delete/:categoryId')
 	async deleteOne(@Param('categoryId') categoryId, @Res() res) {
 		const deletedCategory = await this.categoryService.deleteCategory(categoryId);
+		if (!deletedCategory)
+			throw new NotFoundException('Category not found');
 		return res.status(HttpStatus.OK).json(deletedCategory);
 	}
 }
