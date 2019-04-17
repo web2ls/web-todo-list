@@ -24,9 +24,10 @@ export class TodosController {
 		return res.status(HttpStatus.OK).json(createdTodo);
 	}
 
-	@Put('/update/:id')
-	async update(@Body() updateTodoDto, @Param('id') id, @Res() res) {
-		const updatedTodo = await this.todosService.updateTodo(id, updateTodoDto);
+	@Put('/update')
+	async update(@Body() updateTodoDto, @Res() res) {
+		const updatedTodoId = updateTodoDto._id;
+		const updatedTodo = await this.todosService.updateTodo(updatedTodoId, updateTodoDto);
 		console.log(updatedTodo);
 		if (!updatedTodo)
 			throw new NotFoundException('Task not found');
