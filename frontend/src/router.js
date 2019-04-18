@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Categories from '@/components/Categories.vue';
 import Todos from '@/components/Todos.vue';
 import Settings from '@/components/Settings.vue';
+import Login from '@/components/Login.vue';
 
 Vue.use(Router);
 
@@ -25,6 +26,11 @@ export default new Router({
             path: '/settings',
             name: 'settings',
             component: Settings
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
         },
     ],
 });
