@@ -13,11 +13,14 @@ export class AuthService {
 	async validUserByPassword(loginAttempt: LoginUserDto) {
 		const userToAttempt: Model<User> = await this.usersService.findOneByEmail(loginAttempt.email);
 
+		if (!userToAttempt)
+			throw new UnauthorizedException();
+
 		return new Promise((resolve) => {
 			const isValidPasswd = userToAttempt.validPassword(loginAttempt.password);
 
 			if (isValidPasswd)
-				resolve(userToAttempt.generateJwt());
+				resolve(this.createJwtPayload(userToAttempt));
 			else
 				throw new UnauthorizedException();
 		})
@@ -28,8 +31,23 @@ export class AuthService {
 		const user: Model<User> = await this.usersService.findOneByEmail(payload.email);
 
 		if (user)
-			return user.generateJwt();
+			return this.createJwtPayload(user);
 		else
 			throw new UnauthorizedException();
-	}	
+	}
+
+	createJwtPayload(user) {
+
+        let data: JwtPayload = {
+            email: user.email
+        };
+
+        let jwt = this.jwtService.sign(data);
+
+        return {
+            expiresIn: 3600,
+            token: jwt            
+    	}
+
+    }	
 }

@@ -1,15 +1,18 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Req, Res, HttpStatus, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Req, Res, HttpStatus, NotFoundException, BadRequestException, UseGuards } from '@nestjs/common';
 import * as mongoose from 'mongoose';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategorySchema } from './schemas/Category.schema';
 import { CategoriesService } from './categories.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('categories')
 export class CategoriesController {
 	constructor(private readonly categoryService: CategoriesService) {}
 	@Get()
-	async findAll(@Res() res) {
+	@UseGuards(AuthGuard())
+	async findAll(@Res() res, @Req() req) {
+		console.log(req.headers);
 		const categories = await this.categoryService.getAllCategories();
 		return res.status(HttpStatus.OK).json(categories);
 	}

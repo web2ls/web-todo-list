@@ -15,17 +15,23 @@
             <div class="controls">
                 <button type="submit">Login</button>
             </div>
+
+            <div class="errors" v-if="errorAuth">
+                <div class="alert-message">Incorrect Username or Password</div>
+            </div>
         </form>
     </div>
 </template>
 
 <script>
+import { ApiService } from '../services/api';
 export default {
     data() {
         return {
             errors: [],
             email: null,
             password: null,
+            errorAuth: false,
             errorEmailRequired: false,
             errorPasswdRequired: false,
             errorEmailWrong: false
@@ -56,11 +62,21 @@ export default {
             }
 
             console.log(this.email, this.password);
+            ApiService.login({email: this.email, password: this.password})
+            .then(res => {
+                console.log(res.data);
+                localStorage.setItem('token',  res.data.token);
+            })
+            .catch(error => {
+                console.log(error);
+                this.errorAuth = true;
+            })
         },
         resetMessages() {
             this.errorEmailRequired = false;
             this.errorPasswdRequired = false;
             this.errorEmailWrong = false;
+            this.errorAuth = false;
         }
     }
 }
@@ -119,6 +135,7 @@ export default {
         }
 
         & .alert-message {
+            margin: 20px 0;
             color: red;
             font-size: 18px;
             letter-spacing: 1px;

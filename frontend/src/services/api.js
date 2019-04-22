@@ -3,8 +3,11 @@ import { ENV } from './env';
 
 export const ApiService = {
     getCategories: function() {
+        const token = localStorage.getItem('token');
+        const headers = {'Authorization': `Bearer ${token}`};
         const url = `${ENV.BACKEND_URL}/categories`;
-        return axios.get(url);
+        console.log(headers);
+        return axios.get(url, {headers});
     },
     getTodosAmountByCategory(categoryId) {
         const url = `${ENV.BACKEND_URL}/todos/${categoryId}/amount`;
@@ -41,5 +44,9 @@ export const ApiService = {
     deleteTodosByCategory(categoryId) {
         const url = `${ENV.BACKEND_URL}/todos/delete/bycategory/${categoryId}`;
         return axios.delete(url);
+    },
+    login(creds) {
+        const url = `${ENV.BACKEND_URL}/auth`;
+        return axios.post(url, creds);
     }
 }
