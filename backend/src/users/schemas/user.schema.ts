@@ -34,6 +34,6 @@ UserSchema.methods.generateJwt = function() {
 	return jwt.sign({
 		_id: this._id,
 		mail: this.mail,
-		exp: (expiry.getTime() / 1000)
+		exp: Math.floor((expiry.getTime() / 1000))
 	}, SECRET_KEY);
 }
