@@ -17,6 +17,7 @@ export class CategoriesController {
 	}
 
 	@Post('/create')
+	@UseGuards(AuthGuard())
 	async createNew(@Body() createCategoryDto: CreateCategoryDto, @Res() res) {
 		console.log(createCategoryDto);
 		const createdCategory = await this.categoryService.createCategory(createCategoryDto);
@@ -26,6 +27,7 @@ export class CategoriesController {
 	}
 
 	@Put('/update')
+	@UseGuards(AuthGuard())
 	async updateOne(@Body() updateCategoryDto: UpdateCategoryDto, @Res() res) {
 		const updatedCategory = await this.categoryService.updateCategory(updateCategoryDto._id, updateCategoryDto);
 		if (!updatedCategory)
@@ -34,6 +36,7 @@ export class CategoriesController {
 	}
 
 	@Delete('/delete/:categoryId')
+	@UseGuards(AuthGuard())
 	async deleteOne(@Param('categoryId') categoryId, @Res() res) {
 		const deletedCategory = await this.categoryService.deleteCategory(categoryId);
 		if (!deletedCategory)
