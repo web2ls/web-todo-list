@@ -3,7 +3,7 @@ var crypto = require('crypto');
 import * as mongoose from 'mongoose';
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = process.env.SECRET_KEY || '123';
+require('dotenv').config({encoding: 'utf8'});
 
 export const UserSchema = new mongoose.Schema({
 	email: {
@@ -35,5 +35,5 @@ UserSchema.methods.generateJwt = function() {
 		_id: this._id,
 		mail: this.mail,
 		exp: Math.floor((expiry.getTime() / 1000))
-	}, SECRET_KEY);
+	}, process.env.SECRET_KEY);
 }

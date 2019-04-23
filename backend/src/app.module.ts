@@ -7,11 +7,11 @@ import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
-const DATABASE = process.env.DATABASE || 'mongodb://localhost/todos';
+require('dotenv').config({encoding: 'utf8'});
 
 @Module({
   imports: [
-  	MongooseModule.forRoot('mongodb://localhost/todos', { useNewUrlParser: true }),
+  	MongooseModule.forRoot(process.env.DATABASE, { useNewUrlParser: true }),
   	TodosModule,
   	CategoriesModule,
   	AuthModule,
