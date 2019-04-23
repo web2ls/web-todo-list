@@ -66,6 +66,7 @@ export default {
             .then(res => {
                 console.log(res.data);
                 localStorage.setItem('token',  res.data.token);
+                this.$router.push({name: 'categories'});
             })
             .catch(error => {
                 console.log(error);

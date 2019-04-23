@@ -29,7 +29,7 @@ export const ApiService = {
     },
     updateCategory(category) {
         const headers = getAuthHeader();
-        const url = `${ENV.BACKEND_URL}/categories/update/${category._id}`;
+        const url = `${ENV.BACKEND_URL}/categories/update`;
         return axios.put(url, category, {headers});
     },
     deleteCategory(categoryId) {
@@ -44,7 +44,7 @@ export const ApiService = {
     },
     updateTodo(todo) {
         const headers = getAuthHeader();
-        const url = `${ENV.BACKEND_URL}/todos/update/${todo._id}`;
+        const url = `${ENV.BACKEND_URL}/todos/update`;
         return axios.put(url, todo, {headers});
     },
     deleteTodo(todoId) {

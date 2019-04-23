@@ -12,7 +12,6 @@ export class CategoriesController {
 	@Get()
 	@UseGuards(AuthGuard())
 	async findAll(@Res() res, @Req() req) {
-		console.log(req.headers);
 		const categories = await this.categoryService.getAllCategories();
 		return res.status(HttpStatus.OK).json(categories);
 	}

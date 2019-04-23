@@ -28,7 +28,6 @@ export class TodosController {
 	async update(@Body() updateTodoDto, @Res() res) {
 		const updatedTodoId = updateTodoDto._id;
 		const updatedTodo = await this.todosService.updateTodo(updatedTodoId, updateTodoDto);
-		console.log(updatedTodo);
 		if (!updatedTodo)
 			throw new NotFoundException('Task not found');
 		return res.status(HttpStatus.OK).json(updatedTodo);
@@ -45,7 +44,6 @@ export class TodosController {
 	@Delete('/delete/bycategory/:id')
 	async deleteByCategory(@Param('id') id, @Res() res) {
 		const deletedTodos = await this.todosService.deleteTodosByCategory(id);
-		console.log(deletedTodos);
 		if (!deletedTodos)
 			throw new NotFoundException('Category not found');
 		res.status(HttpStatus.OK).json(true);
