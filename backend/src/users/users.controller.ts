@@ -12,10 +12,4 @@ export class UsersController {
 		const token = await this.usersService.createUser(createUserDto);
 		res.status(HttpStatus.OK).json({message: 'New user has been created'});
 	}
-
-	@Get('test')
-	@UseGuards(AuthGuard())
-	testRoute() {
-		return {message: 'access grabted'};
-	}
 }

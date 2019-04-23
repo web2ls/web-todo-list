@@ -3,7 +3,7 @@ var crypto = require('crypto');
 import * as mongoose from 'mongoose';
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = '123';
+const SECRET_KEY = process.env.SECRET_KEY || '123';
 
 export const UserSchema = new mongoose.Schema({
 	email: {

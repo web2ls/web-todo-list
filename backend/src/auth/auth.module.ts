@@ -8,12 +8,14 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
 
+const SECRET_KEY = process.env.SECRET_KEY || '123';
+
 @Module({
 	imports: [
 		MongooseModule.forFeature([{ name: 'User', schema:  UserSchema}]),
 		PassportModule.register({ defaultStrategy: 'jwt', session: false }),
 		JwtModule.register({
-      		secretOrPrivateKey: '123',
+      		secretOrPrivateKey: SECRET_KEY,
 			signOptions: {
 				expiresIn: 3600
 			}

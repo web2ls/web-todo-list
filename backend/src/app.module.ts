@@ -7,6 +7,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
+const DATABASE = process.env.DATABASE || 'mongodb://localhost/todos';
+
 @Module({
   imports: [
   	MongooseModule.forRoot('mongodb://localhost/todos', { useNewUrlParser: true }),
