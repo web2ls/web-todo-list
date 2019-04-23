@@ -27,7 +27,6 @@ export class AuthService {
 	}
 
 	async validateUserByJwt(payload: JwtPayload) {
-		console.log('calloing my service');
 		const user: Model<User> = await this.usersService.findOneByEmail(payload.email);
 
 		if (user)

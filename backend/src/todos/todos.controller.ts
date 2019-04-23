@@ -17,7 +17,6 @@ export class TodosController {
 	@Get('/:categoryId/amount')
 	@UseGuards(AuthGuard())
 	async getTodosAmountByCategory(@Param('categoryId') categoryId, @Res() res) {
-		console.log('todos amount');
 		const todosAmount = await this.todosService.findTodosAmountByCategory(categoryId);
 		return res.status(HttpStatus.OK).json(todosAmount);		
 	}
