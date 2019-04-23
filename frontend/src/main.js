@@ -10,6 +10,17 @@ Vue.use(Unicon);
 
 Vue.config.productionTip = false;
 
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login')
+    next();
+
+  const token = localStorage.getItem('token');
+  if (!token)
+    next('/login');
+  else
+    next();
+});
+
 new Vue({
   router,
   render: h => h(App),
