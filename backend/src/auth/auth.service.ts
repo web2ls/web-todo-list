@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from '../users/dto/login-user.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { Model } from 'mongoose';
-import { User } from '../users/interfaces/User.interface';
+import { User } from '../users/interfaces/user.interface';
 
 @Injectable()
 export class AuthService {
