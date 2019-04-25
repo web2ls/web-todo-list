@@ -1,3 +1,5 @@
+const isDev = window.location.port.indexOf('8080') > -1;
+
 export const ENV = {
-    BACKEND_URL: 'http://localhost:3000'
+    BACKEND_URL: isDev ? 'http://localhost:3000' : ''
 }
