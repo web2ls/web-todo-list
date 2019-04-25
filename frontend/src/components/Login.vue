@@ -14,6 +14,7 @@
 
             <div class="controls">
                 <button type="submit">Login</button>
+                <button type="button" @click="createUser">Sign Up</button>
             </div>
 
             <div class="errors" v-if="errorAuth">
@@ -78,7 +79,17 @@ export default {
             this.errorPasswdRequired = false;
             this.errorEmailWrong = false;
             this.errorAuth = false;
-        }
+        },
+        createUser() {
+            ApiService.createUser()
+            .then(res => {
+                console.log('User has been created');
+            })
+            .catch(error => {
+                console.error(error);
+                this.errorAuth = true;
+            })
+        },
     }
 }
 </script>

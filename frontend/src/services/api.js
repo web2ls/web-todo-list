@@ -60,5 +60,9 @@ export const ApiService = {
     login(creds) {
         const url = `${ENV.BACKEND_URL}/auth`;
         return axios.post(url, creds);
+    },
+    createUser() {
+        const url = `${ENV.BACKEND_URL}/users`;
+        return axios.get(url);
     }
 }

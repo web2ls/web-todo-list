@@ -13,10 +13,13 @@ export class UsersService {
 		const createdUser = new this.userModel(createUserDto);
 		createdUser.setPassword(createUserDto.password);
 		return await createdUser.save();
-		// return createdUser.generateJwt();
 	}
 
 	async findOneByEmail(email): Promise<User> {
 		return await this.userModel.findOne({email: email});
+	}
+
+	async findAll(): Promise<User[]> {
+		return await this.userModel.find().exec();
 	}
 }
