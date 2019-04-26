@@ -99,7 +99,8 @@ export default {
             updatedTodo.isComplete = payload.isComplete;
             ApiService.updateTodo(updatedTodo)
             .then(res => {
-                this.todos[updatedTodoIndex] = res.data;
+                this.todos.splice(updatedTodoIndex, 1);
+                //this.todos[updatedTodoIndex] = res.data;
             })
             .catch(error => {
                 console.error(error);
