@@ -6,6 +6,7 @@ import { TodosModule } from './todos/todos.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ArchiveTodosModule } from './archive-todos/archive-todos.module';
 
 require('dotenv').config({encoding: 'utf8'});
 
@@ -16,6 +17,7 @@ require('dotenv').config({encoding: 'utf8'});
   	CategoriesModule,
   	AuthModule,
   	UsersModule,
+  	ArchiveTodosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

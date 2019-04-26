@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Delete, Body, Param, Res, HttpStatus, NotFo
 import { TodosService } from './todos.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { Todo } from './interfaces/todo.interface';
 
 @Controller('todos')
 export class TodosController {
@@ -33,8 +34,10 @@ export class TodosController {
 	async update(@Body() updateTodoDto, @Res() res) {
 		const updatedTodoId = updateTodoDto._id;
 		const updatedTodo = await this.todosService.updateTodo(updatedTodoId, updateTodoDto);
+
 		if (!updatedTodo)
 			throw new NotFoundException('Task not found');
+
 		return res.status(HttpStatus.OK).json(updatedTodo);
 	}
 
