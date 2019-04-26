@@ -5,6 +5,7 @@ import Categories from '@/components/Categories.vue';
 import Todos from '@/components/Todos.vue';
 import Settings from '@/components/Settings.vue';
 import Login from '@/components/Login.vue';
+import NotFound from '@/components/NotFound.vue';
 
 Vue.use(Router);
 
@@ -31,6 +32,11 @@ export default new Router({
             path: '/login',
             name: 'login',
             component: Login
+        },
+        {
+            path: '*',
+            name: "not-found",
+            component: NotFound
         },
     ],
 });
