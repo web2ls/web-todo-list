@@ -18,8 +18,12 @@ export class CategoriesService {
 		return await createdCategory.save();
 	}
 
-	async updateCategory(categoryId: string, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
-		return await this.categoryModel.findByIdAndUpdate(categoryId, updateCategoryDto, { new: true });
+	async updateCategory(categoryId: string, updateCategoryDto: UpdateCategoryDto): Promise<Category | boolean> {
+		try {
+			return await this.categoryModel.findByIdAndUpdate(categoryId, updateCategoryDto, { new: true });	
+		} catch(error) {
+			return false;
+		}
 	}
 
 	async deleteCategory(categoryId: string): Promise<any> {		
