@@ -28,6 +28,9 @@ export default {
         })
         .catch(error => {
             console.error(error);
+            const errorData = error.response;
+            if (errorData.status === 401)
+                this.$router.push('/login');
         })
     },
     methods: {

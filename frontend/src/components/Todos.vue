@@ -89,6 +89,9 @@ export default {
         .catch(error => {
             console.error(error);
             this.errorGetData = true;
+            const errorData = error.response;
+            if (errorData.status === 401)
+                this.$router.push('/login');
         })
     },
 
@@ -105,6 +108,9 @@ export default {
             .catch(error => {
                 console.error(error);
                 this.errorUpdateTodo = true;
+                const errorData = error.response;
+                if (errorData.status === 401)
+                    this.$router.push('/login');
             })
         },
 
@@ -128,6 +134,9 @@ export default {
             .catch(error => {
                 console.error(error);
                 this.errorUpdateTodo = true;
+                const errorData = error.response;
+                if (errorData.status === 401)
+                    this.$router.push('/login');
             })
         },
 
@@ -146,6 +155,9 @@ export default {
             .catch(error => {
                 console.error(error);
                 this.errorCreateTodo = true;
+                const errorData = error.response;
+                if (errorData.status === 401)
+                    this.$router.push('/login');
             })
         },
 
@@ -167,7 +179,9 @@ export default {
             })
             .catch(error => {
                 console.error(error);
-
+                const errorData = error.response;
+                if (errorData.status === 401)
+                    this.$router.push('/login');
             })
         },
 

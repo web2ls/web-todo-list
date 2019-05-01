@@ -41,8 +41,11 @@ export default {
             this.categories = res.data;
         })
         .catch(error => {
-            console.error(error);
+            console.log(error);
             this.errorGetDataMessage = true;
+            const errorData = error.response;
+            if (errorData.status === 401)
+                this.$router.push('/login');
         })
     },
     methods: {
