@@ -267,4 +267,16 @@ export default {
     }
 }
 
+@media screen and (max-width: 768px) {
+    .settings {
+
+        & .categories {
+
+            & .category-item {
+                width: 100%;
+            }
+        }
+    }
+}
+
 </style>

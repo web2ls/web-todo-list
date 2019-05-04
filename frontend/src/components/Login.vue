@@ -155,4 +155,10 @@ export default {
     }
     
 }
+
+@media screen and (max-width: 768px) {
+    .login {
+        width: 90%;
+    }
+}
 </style>

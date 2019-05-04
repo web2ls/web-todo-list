@@ -237,4 +237,16 @@ export default {
             font-weight: 400;
         }
     }
+
+    @media screen and (max-width: 768px) {
+        .todos {
+
+            & .todos-new-todo {
+
+                & textarea {
+                    width: 90%;
+                }
+            }
+        }
+    }
 </style>

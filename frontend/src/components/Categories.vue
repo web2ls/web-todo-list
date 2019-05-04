@@ -64,6 +64,7 @@ export default {
             flex-direction: row;
             justify-content: space-between;
             flex-wrap: nowrap;
+            align-items: center;
             margin: 30px 0;
 
             & .header {
@@ -92,6 +93,18 @@ export default {
             letter-spacing: 1px;
             font-weight: 700;
             font-size: 16px;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .categories {
+            .nav {
+                margin: 0;
+                
+                & .header {
+                    font-size: 14px;
+                }
+            }
         }
     }
 </style>

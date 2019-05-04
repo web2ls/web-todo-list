@@ -71,4 +71,24 @@ export default {
             font-size: 12px;
         }
     }
+
+    @media screen and (max-width: 480px) {
+        .category-item {
+            flex-basis: 100%;
+            margin: 0 0 10px 0;
+        }
+    }
+
+    @media screen and (max-width: 768px) and (orientation: portrait) {
+        .category-item {
+            flex-basis: 100%;
+            margin: 0 0 10px 0;
+        }
+    }
+
+    @media screen and (max-width: 768px) and (orientation: landscape) {
+        .category-item {
+            flex-basis: 35%;
+        }
+    }
 </style>

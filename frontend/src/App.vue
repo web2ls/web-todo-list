@@ -47,4 +47,10 @@ body {
   text-align: center;
   color: #2c3e50;
 }
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 100%;
+  }      
+}
 </style>

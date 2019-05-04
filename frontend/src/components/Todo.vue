@@ -136,4 +136,14 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+    .todo {
+
+        & .todo-complete-zone {
+            font-size: 14px;
+            padding: 1.5%;
+        }
+    }
+}
 </style>
